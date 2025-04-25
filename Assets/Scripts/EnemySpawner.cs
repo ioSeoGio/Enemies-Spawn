@@ -7,7 +7,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform _objectParent;
     [SerializeField] private Mover _prefab;
     [SerializeField] private float _spawnDelay = 2;
-
+    [SerializeField] private List<SpawnPoint> _spawnPoints;
+    
     private Coroutine _coroutine;
     private ObjectSpawner _objectSpawner = new();
 
@@ -41,8 +42,15 @@ public class EnemySpawner : MonoBehaviour
 
     private SpawnPoint PickRandomSpawnPoint()
     {
-        SpawnPoint[] spawnPoints = GetComponentsInChildren<SpawnPoint>();
-
-        return spawnPoints[RandomHelper.GetRandomNumber(0, spawnPoints.Length)];
+        return _spawnPoints[RandomHelper.GetRandomNumber(0, _spawnPoints.Count)];
     }
+
+    #if UNITY_EDITOR
+    [ContextMenu("Refresh Child Array")]
+    private void RefreshChildArray()
+    {
+        _spawnPoints.Clear();
+        _spawnPoints.AddRange(GetComponentsInChildren<SpawnPoint>());
+    }
+    #endif
 }
