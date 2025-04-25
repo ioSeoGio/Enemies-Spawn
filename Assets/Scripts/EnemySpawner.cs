@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private Transform _objectParent;
-    [SerializeField] private Mover _prefab;
     [SerializeField] private float _spawnDelay = 2;
     [SerializeField] private List<SpawnPoint> _spawnPoints;
     
@@ -36,8 +35,8 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         SpawnPoint spawnPoint = PickRandomSpawnPoint();
-        Mover enemy = _objectSpawner.Spawn(_prefab, spawnPoint.transform.position, _objectParent);
-        enemy.Move(spawnPoint.MovementDirection, spawnPoint.Speed);
+        TargetMover enemy = _objectSpawner.Spawn(spawnPoint.Prefab, spawnPoint.transform.position, _objectParent);
+        enemy.Move(spawnPoint.Target, spawnPoint.Speed);
     }
 
     private SpawnPoint PickRandomSpawnPoint()
